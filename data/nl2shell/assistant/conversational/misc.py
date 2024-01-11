@@ -56,20 +56,31 @@ Lorsque l'Utilisateur pose une question personnelle, répondez avec tact et disc
 
 
 def get_misc_examples():
-    examples = []
-    for example in misc_examples:
-        examples.append(
-            {
-                'lang': example.get('lang', 'en'),
-                'system': system_prompt.get(example.get('lang', 'en'), ""),
-                'instruction': intruction_prompt.get(example.get('lang', 'en'), ""),
-                'conversation': [
-                    { 'role': "human", 'message': example['input'], 'guide': guides.get(example.get('lang', 'en')) },
-                    { 'role': "assistant", 'message': example['output'],  'scratchpad': [
-                            { 'function': 'final_answer', 'parameters': {'answer': example['output']}, 'observation': "" },
-                        ]
-                    },
-                ]
-            }
-        )
-    return examples
+    return [
+        {
+            'lang': example.get('lang', 'en'),
+            'system': system_prompt.get(example.get('lang', 'en'), ""),
+            'instruction': intruction_prompt.get(
+                example.get('lang', 'en'), ""
+            ),
+            'conversation': [
+                {
+                    'role': "human",
+                    'message': example['input'],
+                    'guide': guides.get(example.get('lang', 'en')),
+                },
+                {
+                    'role': "assistant",
+                    'message': example['output'],
+                    'scratchpad': [
+                        {
+                            'function': 'final_answer',
+                            'parameters': {'answer': example['output']},
+                            'observation': "",
+                        },
+                    ],
+                },
+            ],
+        }
+        for example in misc_examples
+    ]

@@ -14,11 +14,10 @@ if __name__ == '__main__':
 
 
     def load_data():
-        if os.path.exists('data.json'):
-            with open('data.json', 'r', encoding="utf8") as f:
-                return json.load(f)
-        else:
+        if not os.path.exists('data.json'):
             return []
+        with open('data.json', 'r', encoding="utf8") as f:
+            return json.load(f)
 
     choices = {
         'add': "Create a new conversation",
@@ -35,20 +34,18 @@ if __name__ == '__main__':
         from client.chains.tools.python import get_tool as get_python_tool
         from client.chains.tools.search import get_tool as get_search_tool
         from client.chains.tools.shell import get_tool as get_bash_tool
-        
+
         if action == 'Search':
             search_tool = get_search_tool()[0]
             return search_tool.run(action_input)
-        elif action == 'final_answer':
+        elif action == 'final_answer' or action not in ['Bash', 'Python']:
             return None
         elif action == 'Bash':
             bash_tool = get_bash_tool()[0]
             return bash_tool.run(action_input)
-        elif action == 'Python':
+        else:
             python_tool = get_python_tool()[0]
             return python_tool.run(action_input)
-        else:
-            return None
 
     conversations = load_data()
 

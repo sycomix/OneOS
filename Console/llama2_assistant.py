@@ -112,7 +112,7 @@ try:
         # Define the input text
         input_text = session.prompt(f'{USERNAME}: ')
 except KeyboardInterrupt as e:
-    exit_reason = f"User has pressed [Ctrl] + [C] to exit."
+    exit_reason = "User has pressed [Ctrl] + [C] to exit."
     print()
 except Exception as e:
     # Raiase expeption

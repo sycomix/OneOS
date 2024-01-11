@@ -8,10 +8,9 @@ from huggingface_hub import login
 # TODO: Add a flag to save to a local file
 
 def get_text_dataset():
-    text_data = {}
-    text_data['text'] = []
+    text_data = {'text': []}
     text_data['text'].extend(get_assistant_text_data())
-    
+
     return text_data
 
 def print_head_tail(dataset_dict):

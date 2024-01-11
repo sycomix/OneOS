@@ -5,77 +5,21 @@ system_prompt = instruction_prompt = {
     'fr': ""
 }
 
-# instruction_prompt = {
-#     'en': "",
-#     'fr': ""
-# }
-# 
-
-py_compute_examples = []
-
-_examples = []
-_numpy_examples = []
-# Python computing with libraries:
-# Native
-
-_examples.append({
-    'lang': "en",
-    'input': "What is the square root of 4?",
-    'action_input': "import math\nprint(math.sqrt(4))",
-    'answer': "The square root of 4 is 2.0."
-})
-
-_examples.append({
-    'lang': "fr",
-    'input': "Combien font soixante-sept fois nonante-neuf?",
-    'action_input': "print(67*99)",
-    'answer': "Soixante-sept fois nonante-neuf font 6633."
-})
-
-_examples.append({
-    'lang': "en",
-    'input': "What is the cubic root of 62?",
-    'action_input': "import math\nprint(math.pow(62, 1/3))",
-    'answer': "The cubic root of 62 is 3.936497183876087."
-})
-
-_examples.append({
-    'lang': "fr",
-    'input': "pi divisé par 2 arrondi à la troisième décimale?",
-    'action_input': "import math\nprint(round(math.pi/2, 3))",
-    'answer': "Si l'on prend P, qu'on le divise par 2 et qu'on arrondi le résultat à la troisième décimale, on obtient 1.571."
-})
-
-_examples.append({
-    'lang': "en",
-    'input': "two plus seven?",
-    'action_input': "print(2+7)",
-    'answer': "Two plus seven equals nine."
-})
-
-_examples.append({
-    'lang': "fr",
-    'input': "la valeur de e fois cent?",
-    'action_input': "import math\nprint(math.e*100)",
-    'answer': "La valeur de e fois cent est 271.8281828459045."
-})
-
-# NumPy
-
-_numpy_examples.append({
-    'lang': "en",
-    'input': """Quickly multiply those two matrices.
+_numpy_examples = [
+    {
+        'lang': "en",
+        'input': """Quickly multiply those two matrices.
     
     [[1, 2, 3], [4, 5, 6]]
 
     [[7, 8], [9, 10], [11, 12]]
     
     Walk me through the process.""",
-    'action_input': """import numpy as np
+        'action_input': """import numpy as np
 a = np.array([[1, 2, 3], [4, 5, 6]])
 b = np.array([[7, 8], [9, 10], [11, 12]])
 print(np.dot(a, b))""",
-    'answer': """Certainly. Allow me to multiply those two matrices for you.
+        'answer': """Certainly. Allow me to multiply those two matrices for you.
 
 Here are the two matrices you provided:
 
@@ -112,16 +56,53 @@ Matrix C:
 [[58, 64],
  [139, 154]]
 
-If you have any further questions or need more explanations, please don't hesitate to ask."""
-})
-
-_examples.append({
-    'lang': "fr",
-    'input': "Si j'ai un triangle rectangle de coté 1 et 2, quel est la taille du troisième coté de mon triangle ?",
-    'action_input': """import numpy as np
+If you have any further questions or need more explanations, please don't hesitate to ask.""",
+    }
+]
+_examples = [
+    {
+        'lang': "en",
+        'input': "What is the square root of 4?",
+        'action_input': "import math\nprint(math.sqrt(4))",
+        'answer': "The square root of 4 is 2.0.",
+    },
+    {
+        'lang': "fr",
+        'input': "Combien font soixante-sept fois nonante-neuf?",
+        'action_input': "print(67*99)",
+        'answer': "Soixante-sept fois nonante-neuf font 6633.",
+    },
+    {
+        'lang': "en",
+        'input': "What is the cubic root of 62?",
+        'action_input': "import math\nprint(math.pow(62, 1/3))",
+        'answer': "The cubic root of 62 is 3.936497183876087.",
+    },
+    {
+        'lang': "fr",
+        'input': "pi divisé par 2 arrondi à la troisième décimale?",
+        'action_input': "import math\nprint(round(math.pi/2, 3))",
+        'answer': "Si l'on prend P, qu'on le divise par 2 et qu'on arrondi le résultat à la troisième décimale, on obtient 1.571.",
+    },
+    {
+        'lang': "en",
+        'input': "two plus seven?",
+        'action_input': "print(2+7)",
+        'answer': "Two plus seven equals nine.",
+    },
+    {
+        'lang': "fr",
+        'input': "la valeur de e fois cent?",
+        'action_input': "import math\nprint(math.e*100)",
+        'answer': "La valeur de e fois cent est 271.8281828459045.",
+    },
+    {
+        'lang': "fr",
+        'input': "Si j'ai un triangle rectangle de coté 1 et 2, quel est la taille du troisième coté de mon triangle ?",
+        'action_input': """import numpy as np
 a = np.array([1, 2])
 print(np.linalg.norm(a))""",
-    'answer': """Vous faites référence à un triangle rectangle où deux des côtés sont connus comme ayant des longueurs de 1 et 2 unités. Dans un triangle rectangle, le théorème de Pythagore peut être utilisé pour calculer la longueur du troisième côté (l'hypoténuse).
+        'answer': """Vous faites référence à un triangle rectangle où deux des côtés sont connus comme ayant des longueurs de 1 et 2 unités. Dans un triangle rectangle, le théorème de Pythagore peut être utilisé pour calculer la longueur du troisième côté (l'hypoténuse).
 
 Le théorème de Pythagore stipule que dans un triangle rectangle, la somme des carrés des longueurs des deux côtés les plus courts (les côtés adjacents à l'angle droit) est égale au carré de la longueur de l'hypoténuse.
 
@@ -141,21 +122,23 @@ Maintenant, prenons la racine carrée des deux côtés pour obtenir la longueur 
 
 c = √5 ≈ 2.236 unités
 
-Donc, la longueur du troisième côté de votre triangle rectangle est d'environ 2.236 unités."""
-})
-
-# pandas
-
-py_compute_examples.append({
-    'system': system_prompt.get('en', ""),
-    'instruction': instruction_prompt.get('en', ""),
-    'conversation': [
-        { 'role': "human", 'message': """See the sales_data.csv file?
+Donc, la longueur du troisième côté de votre triangle rectangle est d'environ 2.236 unités.""",
+    },
+]
+py_compute_examples = [
+    {
+        'system': system_prompt.get('en', ""),
+        'instruction': instruction_prompt.get('en', ""),
+        'conversation': [
+            {
+                'role': "human",
+                'message': """See the sales_data.csv file?
 Calculate the total revenue for each product and find the one that generated the most.
-Also calculates the total units sold by product and finds the most sold.""" },
-        { 
-            'role': "assistant", 
-            'message': """### Product Sales Report
+Also calculates the total units sold by product and finds the most sold.""",
+            },
+            {
+                'role': "assistant",
+                'message': """### Product Sales Report
 #### Total Revenue by Product
 Product A generated a total revenue of $21,000.
 Product B generated a total revenue of $14,250.
@@ -167,8 +150,11 @@ Product B had a total of 285 units sold.
 The product with the highest number of units sold is Product A with 420 units sold.
 
 This report summarizes the sales performance of the two products, highlighting their total revenue and units sold. Product A emerges as the leader in both categories, generating the highest revenue and selling the most units.""",
-            'scratchpad': [
-                { 'function': "shell", 'parameters': {'code': "cat sales_data.csv"}, 'observation': """Date,Product,Units Sold,Revenue
+                'scratchpad': [
+                    {
+                        'function': "shell",
+                        'parameters': {'code': "cat sales_data.csv"},
+                        'observation': """Date,Product,Units Sold,Revenue
 2023-01-01,Product A,100,5000
 2023-01-01,Product B,75,3750
 2023-01-02,Product A,120,6000
@@ -176,9 +162,18 @@ This report summarizes the sales performance of the two products, highlighting t
 2023-01-03,Product A,90,4500
 2023-01-03,Product B,60,3000
 2023-01-04,Product A,110,5500
-2023-01-04,Product B,70,3500"""},
-                { 'function': "shell", 'parameters': {'code': "pip install -U --no-input pandas"} },
-                { 'function': "python", 'parameters': {'code': """import pandas as pd
+2023-01-04,Product B,70,3500""",
+                    },
+                    {
+                        'function': "shell",
+                        'parameters': {
+                            'code': "pip install -U --no-input pandas"
+                        },
+                    },
+                    {
+                        'function': "python",
+                        'parameters': {
+                            'code': """import pandas as pd
 df = pd.read_csv("sales_data.csv")
 revenue_by_product = df.groupby("Product")["Revenue"].sum()
 product_with_highest_revenue = revenue_by_product.idxmax()
@@ -192,7 +187,9 @@ print(f"The product with the highest revenue is {product_with_highest_revenue} w
 print("\nTotal units sold by product:")
 print(units_sold_by_product)
 print(f"The product with the highest units sold is {product_with_highest_units_sold} with {highest_units_sold} units sold.")
-"""}, 'observation': """Total revenue by product:
+"""
+                        },
+                        'observation': """Total revenue by product:
 Product
 Product A    21000
 Product B    14250
@@ -202,8 +199,12 @@ Product
 Product A    420
 Product B    285
 Name: Units Sold, dtype: int64
-The product with the highest units sold is Product A with 420 units sold."""},
-                { 'function': 'final_answer', 'parameters': {'answer': """### Product Sales Report
+The product with the highest units sold is Product A with 420 units sold.""",
+                    },
+                    {
+                        'function': 'final_answer',
+                        'parameters': {
+                            'answer': """### Product Sales Report
 #### Total Revenue by Product
 Product A generated a total revenue of $21,000.
 Product B generated a total revenue of $14,250.
@@ -214,11 +215,14 @@ Product A had a total of 420 units sold.
 Product B had a total of 285 units sold.
 The product with the highest number of units sold is Product A with 420 units sold.
 
-This report summarizes the sales performance of the two products, highlighting their total revenue and units sold. Product A emerges as the leader in both categories, generating the highest revenue and selling the most units."""} },
-        ]}
-    ]
-})
-
+This report summarizes the sales performance of the two products, highlighting their total revenue and units sold. Product A emerges as the leader in both categories, generating the highest revenue and selling the most units."""
+                        },
+                    },
+                ],
+            },
+        ],
+    }
+]
 # matlotlib
 # tensorflow
 # pytorch

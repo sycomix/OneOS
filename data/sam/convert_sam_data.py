@@ -98,8 +98,8 @@ def convert_to_cot(example):
     example['human'] = []
     example['machine'] = []
     example['final_answer'] = []
+    agent_scratchpad = ""
     for conversation in conversations:
-        agent_scratchpad = ""
         chat_history = ""
         for _utter in conversation:
             _from = _utter.get('from')

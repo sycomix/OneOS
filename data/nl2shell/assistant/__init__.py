@@ -135,7 +135,7 @@ def convert_data_to_text(
     "function": "{action}",
     "parameters": {action_input}
 }}"""
-    text = _TEMPLATE_FORMAT_.format(
+    return _TEMPLATE_FORMAT_.format(
         system_prompt=system_prompt,
         instruction=instruction,
         tools=_TOOLS_,
@@ -144,16 +144,15 @@ def convert_data_to_text(
         scratchpad=_scratchpad,
         output=_output,
         environ=_ENV_FORMAT_.format(**env),
-        guide=guide or "No relevant guide was found in the book. Do your best to answer the User's Input.",
+        guide=guide
+        or "No relevant guide was found in the book. Do your best to answer the User's Input.",
         BOS=BOS,
         EOS=EOS,
         BOSYS=BOSYS,
         EOSYS=EOSYS,
         BOI=BOI,
-        EOI=EOI
+        EOI=EOI,
     )
-
-    return text
 
 
 def format_training_example(

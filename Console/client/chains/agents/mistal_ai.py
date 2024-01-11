@@ -36,12 +36,10 @@ from Console.client.chains.parsers.markdown_json import MarkdownOutputParser
 
 def format_intermediate_steps_to_agent_scratchpad(intermediate_steps):
     
-    agent_scratchpad = ""
-    
-    for action, observation in intermediate_steps:
-        agent_scratchpad += f"```json\n{{ 'action': '{action.tool}',  'action_input': '{action.tool_input}'}}\n```</s>[INST] Observation: {observation} [INST]"
-    
-    return agent_scratchpad
+    return "".join(
+        f"```json\n{{ 'action': '{action.tool}',  'action_input': '{action.tool_input}'}}\n```</s>[INST] Observation: {observation} [INST]"
+        for action, observation in intermediate_steps
+    )
 
 class MistralAIFunctionsAgent(BaseSingleActionAgent):
     """An Agent driven by OpenAIs function powered API.
@@ -116,10 +114,7 @@ class MistralAIFunctionsAgent(BaseSingleActionAgent):
                 stop=["</s>", "[INST]", "[/INST]", "<s>", "```\n"],
             )
         output_parser = MarkdownOutputParser()
-        agent_decision = output_parser.parse(
-            text=predicted_action
-        )
-        return agent_decision
+        return output_parser.parse(text=predicted_action)
 
     async def aplan(
         self,
@@ -149,10 +144,7 @@ class MistralAIFunctionsAgent(BaseSingleActionAgent):
             prompt_context, callbacks=callbacks, stop=["</s>", "[INST]", "[/INST]", "<s>", "```\n"],
         )
         output_parser = MarkdownOutputParser()
-        agent_decision = output_parser.parse(
-            text=predicted_action
-        )
-        return agent_decision
+        return output_parser.parse(text=predicted_action)
 
     def return_stopped_response(
         self,
@@ -201,11 +193,7 @@ class MistralAIFunctionsAgent(BaseSingleActionAgent):
         """
         _prompts = extra_prompt or []
         messages: List[str]
-        if system:
-            messages = ["<s>[INST]", system]
-        else:
-            messages = []
-
+        messages = ["<s>[INST]", system] if system else []
         messages.extend(
             [
                 *_prompts,

@@ -97,31 +97,69 @@ def get_cat_examples():
         user_ask_fr = cat_examples['user_ask']['fr'][i].format(file_name=file_name)
         assistant_reply_en = cat_examples['assistant_response']['en'][i].format(file_name=file_name, file_content=file_content)
         assistant_reply_fr = cat_examples['assistant_response']['fr'][i].format(file_name=file_name, file_content=file_content)
-        data.append({
-            'lang': 'en',
-            'system': system_prompt.get('en', ""),
-            'instruction': intruction_prompt.get('en', ""),
-            'conversation': [
-                { 'role': "human", 'message': user_ask_en, 'guide': guides.get('en') },
-                { 'role': "assistant", 'message': assistant_reply_en,  'scratchpad': [
-                        { 'function': 'shell', 'parameters': {'code': f"cat {file_name}"}, 'observation': file_content },
-                        { 'function': 'final_answer', 'parameters': {'answer': assistant_reply_en}, 'observation': "" },
-                    ]
+        data.extend(
+            (
+                {
+                    'lang': 'en',
+                    'system': system_prompt.get('en', ""),
+                    'instruction': intruction_prompt.get('en', ""),
+                    'conversation': [
+                        {
+                            'role': "human",
+                            'message': user_ask_en,
+                            'guide': guides.get('en'),
+                        },
+                        {
+                            'role': "assistant",
+                            'message': assistant_reply_en,
+                            'scratchpad': [
+                                {
+                                    'function': 'shell',
+                                    'parameters': {'code': f"cat {file_name}"},
+                                    'observation': file_content,
+                                },
+                                {
+                                    'function': 'final_answer',
+                                    'parameters': {
+                                        'answer': assistant_reply_en
+                                    },
+                                    'observation': "",
+                                },
+                            ],
+                        },
+                    ],
                 },
-            ]
-        })
-        data.append({
-            'lang': 'fr',
-            'system': system_prompt.get('fr', ""),
-            'instruction': intruction_prompt.get('fr', ""),
-            'conversation': [
-                { 'role': "human", 'message': user_ask_fr, 'guide': guides.get('fr') },
-                { 'role': "assistant", 'message': assistant_reply_fr,  'scratchpad': [
-                        { 'function': 'shell', 'parameters': {'code': f"cat {file_name}"}, 'observation': file_content },
-                        { 'function': 'final_answer', 'parameters': {'answer': assistant_reply_fr}, 'observation': "" },
-                    ]
+                {
+                    'lang': 'fr',
+                    'system': system_prompt.get('fr', ""),
+                    'instruction': intruction_prompt.get('fr', ""),
+                    'conversation': [
+                        {
+                            'role': "human",
+                            'message': user_ask_fr,
+                            'guide': guides.get('fr'),
+                        },
+                        {
+                            'role': "assistant",
+                            'message': assistant_reply_fr,
+                            'scratchpad': [
+                                {
+                                    'function': 'shell',
+                                    'parameters': {'code': f"cat {file_name}"},
+                                    'observation': file_content,
+                                },
+                                {
+                                    'function': 'final_answer',
+                                    'parameters': {
+                                        'answer': assistant_reply_fr
+                                    },
+                                    'observation': "",
+                                },
+                            ],
+                        },
+                    ],
                 },
-            ]
-        })
+            )
+        )
     return data
 

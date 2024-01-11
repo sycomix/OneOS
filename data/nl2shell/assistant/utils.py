@@ -25,13 +25,11 @@ def post_http_request(
         "stream": stream,
         "stop": stop
     }
-    response = post(api_url, headers=headers, json=pload, stream=stream)
-    return response
+    return post(api_url, headers=headers, json=pload, stream=stream)
 
 def get_response(response: Response) -> str:
-        data = json.loads(response.content)
-        output = "\n".join(data["text"]).strip()
-        return output
+    data = json.loads(response.content)
+    return "\n".join(data["text"]).strip()
 
 def generate_answer(query, api_url="http://localhost:8000/generate", n=1, use_beam_search=False, max_tokens=2048, stream=False, temperature=0.0, stop=["</s>"]):
     return get_response(post_http_request(query, api_url=api_url, stop=stop, n=n, stream=stream, temperature=temperature, use_beam_search=use_beam_search, max_tokens=max_tokens))

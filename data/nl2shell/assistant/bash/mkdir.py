@@ -11,39 +11,60 @@ system_prompt = intruction_prompt= {
 # }
 # 
 
-mkdir_examples = []
-
-mkdir_examples.append(
+mkdir_examples = [
     {
         'lang': 'en',
         'system': system_prompt.get('en', ""),
         'instruction': intruction_prompt.get('en', ""),
         'conversation': [
-            { 'role': "human", 'message': "Make directory test" },
-            { 'role': "assistant", 'message': "I created a new directory test.",  'scratchpad': [
-                    { 'function': 'shell', 'parameters': {'code': "mkdir test"}, 'observation': "" },
-                    { 'function': 'final_answer', 'parameters': {'answer': "I created a new directory test."}, 'observation': "" },
-                ]
+            {'role': "human", 'message': "Make directory test"},
+            {
+                'role': "assistant",
+                'message': "I created a new directory test.",
+                'scratchpad': [
+                    {
+                        'function': 'shell',
+                        'parameters': {'code': "mkdir test"},
+                        'observation': "",
+                    },
+                    {
+                        'function': 'final_answer',
+                        'parameters': {
+                            'answer': "I created a new directory test."
+                        },
+                        'observation': "",
+                    },
+                ],
             },
-        ]
-    }
-)
-
-mkdir_examples.append(
+        ],
+    },
     {
         'lang': 'fr',
         'system': system_prompt.get('fr', ""),
         'instruction': intruction_prompt.get('fr', ""),
         'conversation': [
-            { 'role': "human", 'message': "Crée un répertoire test" },
-            { 'role': "assistant", 'message': "J'ai créé un nouveau répertoire test.",  'scratchpad': [
-                    { 'function': 'shell', 'parameters': {'code': "mkdir test"}, 'observation': "" },
-                    { 'function': 'final_answer', 'parameters': {'answer': "J'ai créé un nouveau répertoire test."}, 'observation': "" },
-                ]
+            {'role': "human", 'message': "Crée un répertoire test"},
+            {
+                'role': "assistant",
+                'message': "J'ai créé un nouveau répertoire test.",
+                'scratchpad': [
+                    {
+                        'function': 'shell',
+                        'parameters': {'code': "mkdir test"},
+                        'observation': "",
+                    },
+                    {
+                        'function': 'final_answer',
+                        'parameters': {
+                            'answer': "J'ai créé un nouveau répertoire test."
+                        },
+                        'observation': "",
+                    },
+                ],
             },
-        ]
-    }
-)
+        ],
+    },
+]
 
 def get_mkdir_examples():
     return mkdir_examples
