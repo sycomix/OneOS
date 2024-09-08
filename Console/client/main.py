@@ -53,8 +53,6 @@ def main():
 
 def main_assistant(args):
     assistant = Assistant()
-    exit_code = 0
-
     if args.command:
         # Single command from argument
         assistant.single_command(args.command)
@@ -64,7 +62,7 @@ def main_assistant(args):
             assistant.script_from_file(args.file, args.args)
         else:
             # or Interpret as command instead
-            command = f"{str(args.file)} {str(' '.join(args.args))}".lstrip()
+            command = f"{str(args.file)} {' '.join(args.args)}".lstrip()
             assistant.single_command(command)
     elif not sys.stdin.isatty() and not args.force_interactive:
         # Script from stdin
@@ -73,4 +71,4 @@ def main_assistant(args):
     else:
         # Interactive Mode (command loop)
         assistant.interactive_mode()
-    return exit_code
+    return 0

@@ -1,5 +1,3 @@
-ls_data = []
-
 _ls_examples = [
     {
         'cmd': 'ls',
@@ -81,286 +79,176 @@ _ls_examples = [
     },
 ]
 
-# English Query: List what's in the current directory.
-# French Query: Liste ce qu'il y a dans ce répertoire.
-# Shell: ls
-# Shell Output:
-# English Answer: There is nothing in the current directory.
-# French Answer: Le dossier est vide.
-
-ls_data.append({
-    'cmd': 'ls',
-    'stdout': '',
-    'fr': {
-        'query': "Liste ce qu'il y a dans ce répertoire.",
-        'answer': "Le dossier est vide."
+ls_data = [
+    {
+        'cmd': 'ls',
+        'stdout': '',
+        'fr': {
+            'query': "Liste ce qu'il y a dans ce répertoire.",
+            'answer': "Le dossier est vide.",
+        },
+        'en': {
+            'query': "List what's in the current directory.",
+            'answer': "There is nothing in the current directory.",
+        },
     },
-    'en': {
-        'query': "List what's in the current directory.",
-        'answer': "There is nothing in the current directory."
+    {
+        'cmd': 'ls Documents',
+        'stdout': '',
+        'fr': {
+            'query': "Liste le contenu du dossier \"Documents\".",
+            'answer': "Aucun fichier ou dossier trouvé dans \"Documents\".",
+        },
+        'en': {
+            'query': "List the contents of the \"Documents\" folder.",
+            'answer': "No files or folders found in \"Documents\".",
+        },
     },
-})
-
-# English Query: List the contents of the "Documents" folder.
-# French Query: Liste le contenu du dossier "Documents".
-# Shell: ls Documents
-# Shell Output:
-# English Answer: No files or folders found in "Documents".
-# French Answer: Aucun fichier ou dossier trouvé dans "Documents".
-
-ls_data.append({
-    'cmd': 'ls Documents',
-    'stdout': '',
-    'fr': {
-        'query': "Liste le contenu du dossier \"Documents\".",
-        'answer': "Aucun fichier ou dossier trouvé dans \"Documents\"."
+    {
+        'cmd': 'ls -a',
+        'stdout': '',
+        'fr': {
+            'query': "Liste tous les fichiers et dossiers, y compris les fichiers cachés (commençant par un point).",
+            'answer': "Il n'y a pas de fichiers ou de dossiers visibles ou cachés dans ce répertoire.",
+        },
+        'en': {
+            'query': "List all files and folders, including hidden ones (starting with a dot).",
+            'answer': "There are neither visible nor hidden files or any folders in this directory.",
+        },
     },
-    'en': {
-        'query': "List the contents of the \"Documents\" folder.",
-        'answer': "No files or folders found in \"Documents\"."
+    {
+        'cmd': 'ls /var/www',
+        'stdout': '',
+        'fr': {
+            'query': "Liste le contenu du répertoire \"/var/www\".",
+            'answer': "Le répertoire \"/var/www\" est vide.",
+        },
+        'en': {
+            'query': "List the contents of the \"/var/www\" directory.",
+            'answer': "The \"/var/www\" directory is empty.",
+        },
     },
-})
-
-# English Query: List all files and folders, including hidden ones (starting with a dot).
-# French Query: Liste tous les fichiers et dossiers, y compris les fichiers cachés (commençant par un point).
-# Shell: ls -a
-# Shell Output:
-# English Answer: There are no visible files or folders in this directory, only hidden ones.
-# French Answer: Il n'y a pas de fichiers ou de dossiers visibles dans ce répertoire, seulement des fichiers cachés.
-
-ls_data.append({
-    'cmd': 'ls -a',
-    'stdout': '',
-    'fr': {
-        'query': "Liste tous les fichiers et dossiers, y compris les fichiers cachés (commençant par un point).",
-        'answer': "Il n'y a pas de fichiers ou de dossiers visibles ou cachés dans ce répertoire."
+    {
+        'cmd': 'ls ..',
+        'stdout': '',
+        'fr': {
+            'query': "Liste le contenu du répertoire parent.",
+            'answer': "Il n'y a pas de fichiers ou de dossiers dans le répertoire parent.",
+        },
+        'en': {
+            'query': "List the contents of the parent directory.",
+            'answer': "There are no files or folders in the parent directory.",
+        },
     },
-    'en': {
-        'query': "List all files and folders, including hidden ones (starting with a dot).",
-        'answer': "There are neither visible nor hidden files or any folders in this directory."
+    {
+        'cmd': 'ls ~',
+        'stdout': '',
+        'fr': {
+            'query': "Liste le contenu du répertoire personnel.",
+            'answer': "Le répertoire personnel est vide.",
+        },
+        'en': {
+            'query': "List the contents of the home directory.",
+            'answer': "The home directory is empty.",
+        },
     },
-})
-
-# English Query: List the contents of the "/var/www" directory.
-# French Query: Liste le contenu du répertoire "/var/www".
-# Shell: ls /var/www
-# Shell Output:
-# English Answer: The "/var/www" directory is empty.
-# French Answer: Le répertoire "/var/www" est vide.
-
-ls_data.append({
-    'cmd': 'ls /var/www',
-    'stdout': '',
-    'fr': {
-        'query': "Liste le contenu du répertoire \"/var/www\".",
-        'answer': "Le répertoire \"/var/www\" est vide."
+    {
+        'cmd': 'ls -l',
+        'stdout': '',
+        'fr': {
+            'query': "Liste le contenu d'un répertoire avec des informations détaillées (permissions, propriétaire, taille, etc.).",
+            'answer': "Il n'y a pas de fichiers ou de dossiers dans ce répertoire.",
+        },
+        'en': {
+            'query': "List the contents of a directory with detailed information (permissions, owner, size, etc.).",
+            'answer': "There are no files or folders in this directory.",
+        },
     },
-    'en': {
-        'query': "List the contents of the \"/var/www\" directory.",
-        'answer': "The \"/var/www\" directory is empty."
+    {
+        'cmd': 'ls -d */',
+        'stdout': '',
+        'fr': {
+            'query': "Liste uniquement les dossiers (excluant les fichiers).",
+            'answer': "Il n'y a pas de dossiers dans ce répertoire.",
+        },
+        'en': {
+            'query': "List only directories (excluding files).",
+            'answer': "There are no directories in this directory.",
+        },
     },
-})
-
-# English Query: List the contents of the parent directory.
-# French Query: Liste le contenu du répertoire parent.
-# Shell: ls ..
-# Shell Output:
-# English Answer: There are no files or folders in the parent directory.
-# French Answer: Il n'y a pas de fichiers ou de dossiers dans le répertoire parent.
-
-ls_data.append({
-    'cmd': 'ls ..',
-    'stdout': '',
-    'fr': {
-        'query': "Liste le contenu du répertoire parent.",
-        'answer': "Il n'y a pas de fichiers ou de dossiers dans le répertoire parent."
+    {
+        'cmd': 'ls -p | grep -v /',
+        'stdout': '',
+        'fr': {
+            'query': "Liste uniquement les fichiers (excluant les dossiers).",
+            'answer': "Il n'y a pas de fichiers dans ce répertoire.",
+        },
+        'en': {
+            'query': "List only files (excluding directories).",
+            'answer': "There are no files in this directory.",
+        },
     },
-    'en': {
-        'query': "List the contents of the parent directory.",
-        'answer': "There are no files or folders in the parent directory."
+    {
+        'cmd': 'ls -d a*',
+        'stdout': '',
+        'fr': {
+            'query': "Liste uniquement les fichiers et dossiers qui commencent par \"a\".",
+            'answer': "Il n'y a pas de fichiers ou de dossiers qui commencent par \"a\" dans ce répertoire.",
+        },
+        'en': {
+            'query': "List only files and directories that start with \"a\".",
+            'answer': "There are no files or directories that start with \"a\" in this directory.",
+        },
     },
-})
-
-# English Query: List the contents of the home directory.
-# French Query: Liste le contenu du répertoire personnel.
-# Shell: ls ~
-# Shell Output:
-# English Answer: The home directory is empty.
-# French Answer: Le répertoire personnel est vide.
-
-ls_data.append({
-    'cmd': 'ls ~',
-    'stdout': '',
-    'fr': {
-        'query': "Liste le contenu du répertoire personnel.",
-        'answer': "Le répertoire personnel est vide."
+    {
+        'cmd': 'ls -d *.txt',
+        'stdout': '',
+        'fr': {
+            'query': "Liste uniquement les fichiers et dossiers qui se terminent par \".txt\".",
+            'answer': "Il n'y a pas de fichiers ou de dossiers qui se terminent par \".txt\" dans ce répertoire.",
+        },
+        'en': {
+            'query': "List only files and directories that end with \".txt\".",
+            'answer': "There are no files or directories that end with \".txt\" in this directory.",
+        },
     },
-    'en': {
-        'query': "List the contents of the home directory.",
-        'answer': "The home directory is empty."
+    {
+        'cmd': 'ls -d *a*',
+        'stdout': '',
+        'fr': {
+            'query': "Liste uniquement les fichiers et dossiers qui contiennent \"a\".",
+            'answer': "Il n'y a pas de fichiers ou de dossiers qui contiennent \"a\" dans ce répertoire.",
+        },
+        'en': {
+            'query': "List only files and directories that contain \"a\".",
+            'answer': "There are no files or directories that contain \"a\" in this directory.",
+        },
     },
-})
-
-# English Query: List the contents of a directory with detailed information (permissions, owner, size, etc.).
-# French Query: Liste le contenu d'un répertoire avec des informations détaillées (permissions, propriétaire, taille, etc.).
-# Shell: ls -l
-# Shell Output:
-# English Answer: There are no files or folders in this directory.
-# French Answer: Il n'y a pas de fichiers ou de dossiers dans ce répertoire.
-
-ls_data.append({
-    'cmd': 'ls -l',
-    'stdout': '',
-    'fr': {
-        'query': "Liste le contenu d'un répertoire avec des informations détaillées (permissions, propriétaire, taille, etc.).",
-        'answer': "Il n'y a pas de fichiers ou de dossiers dans ce répertoire."
+    {
+        'cmd': 'ls -d a*.txt',
+        'stdout': '',
+        'fr': {
+            'query': "Liste uniquement les fichiers et dossiers qui commencent par \"a\" et se terminent par \".txt\".",
+            'answer': "Il n'y a pas de fichiers ou de dossiers qui commencent par \"a\" et se terminent par \".txt\" dans ce répertoire.",
+        },
+        'en': {
+            'query': "List only files and directories that start with \"a\" and end with \".txt\".",
+            'answer': "There are no files or directories that start with \"a\" and end with \".txt\" in this directory.",
+        },
     },
-    'en': {
-        'query': "List the contents of a directory with detailed information (permissions, owner, size, etc.).",
-        'answer': "There are no files or folders in this directory."
+    {
+        'cmd': 'ls -d a* *.txt',
+        'stdout': '',
+        'fr': {
+            'query': "Liste uniquement les fichiers et dossiers qui commencent par \"a\" ou se terminent par \".txt\".",
+            'answer': "Il n'y a pas de fichiers ou de dossiers qui commencent par \"a\" ou se terminent par \".txt\" dans ce répertoire.",
+        },
+        'en': {
+            'query': "List only files and directories that start with \"a\" or end with \".txt\".",
+            'answer': "There are no files or directories that start with \"a\" or end with \".txt\" in this directory.",
+        },
     },
-})
-
-# English Query: List only directories (excluding files).
-# French Query: Liste uniquement les dossiers (excluant les fichiers).
-# Shell: ls -d */
-# Shell Output:
-# English Answer: There are no directories in this directory.
-# French Answer: Il n'y a pas de dossiers dans ce répertoire.
-
-ls_data.append({
-    'cmd': 'ls -d */',
-    'stdout': '',
-    'fr': {
-        'query': "Liste uniquement les dossiers (excluant les fichiers).",
-        'answer': "Il n'y a pas de dossiers dans ce répertoire."
-    },
-    'en': {
-        'query': "List only directories (excluding files).",
-        'answer': "There are no directories in this directory."
-    },
-})
-
-# English Query: List only files (excluding directories).
-# French Query: Liste uniquement les fichiers (excluant les dossiers).
-# Shell: ls -p | grep -v /
-# Shell Output:
-# English Answer: There are no files in this directory.
-# French Answer: Il n'y a pas de fichiers dans ce répertoire.
-
-ls_data.append({
-    'cmd': 'ls -p | grep -v /',
-    'stdout': '',
-    'fr': {
-        'query': "Liste uniquement les fichiers (excluant les dossiers).",
-        'answer': "Il n'y a pas de fichiers dans ce répertoire."
-    },
-    'en': {
-        'query': "List only files (excluding directories).",
-        'answer': "There are no files in this directory."
-    },
-})
-
-# English Query: List only files and directories that start with "a".
-# French Query: Liste uniquement les fichiers et dossiers qui commencent par "a".
-# Shell: ls -d a*
-# Shell Output:
-# English Answer: There are no files or directories that start with "a" in this directory.
-# French Answer: Il n'y a pas de fichiers ou de dossiers qui commencent par "a" dans ce répertoire.
-
-ls_data.append({
-    'cmd': 'ls -d a*',
-    'stdout': '',
-    'fr': {
-        'query': "Liste uniquement les fichiers et dossiers qui commencent par \"a\".",
-        'answer': "Il n'y a pas de fichiers ou de dossiers qui commencent par \"a\" dans ce répertoire."
-    },
-    'en': {
-        'query': "List only files and directories that start with \"a\".",
-        'answer': "There are no files or directories that start with \"a\" in this directory."
-    },
-})
-
-# English Query: List only files and directories that end with ".txt".
-# French Query: Liste uniquement les fichiers et dossiers qui se terminent par ".txt".
-# Shell: ls -d *.txt
-# Shell Output:
-# English Answer: There are no files or directories that end with ".txt" in this directory.
-# French Answer: Il n'y a pas de fichiers ou de dossiers qui se terminent par ".txt" dans ce répertoire.
-
-ls_data.append({
-    'cmd': 'ls -d *.txt',
-    'stdout': '',
-    'fr': {
-        'query': "Liste uniquement les fichiers et dossiers qui se terminent par \".txt\".",
-        'answer': "Il n'y a pas de fichiers ou de dossiers qui se terminent par \".txt\" dans ce répertoire."
-    },
-    'en': {
-        'query': "List only files and directories that end with \".txt\".",
-        'answer': "There are no files or directories that end with \".txt\" in this directory."
-    },
-})
-
-# English Query: List only files and directories that contain "a".
-# French Query: Liste uniquement les fichiers et dossiers qui contiennent "a".
-# Shell: ls -d *a*
-# Shell Output:
-# English Answer: There are no files or directories that contain "a" in this directory.
-# French Answer: Il n'y a pas de fichiers ou de dossiers qui contiennent "a" dans ce répertoire.
-
-ls_data.append({
-    'cmd': 'ls -d *a*',
-    'stdout': '',
-    'fr': {
-        'query': "Liste uniquement les fichiers et dossiers qui contiennent \"a\".",
-        'answer': "Il n'y a pas de fichiers ou de dossiers qui contiennent \"a\" dans ce répertoire."
-    },
-    'en': {
-        'query': "List only files and directories that contain \"a\".",
-        'answer': "There are no files or directories that contain \"a\" in this directory."
-    },
-})
-
-# English Query: List only files and directories that start with "a" and end with ".txt".
-# French Query: Liste uniquement les fichiers et dossiers qui commencent par "a" et se terminent par ".txt".
-# Shell: ls -d a*.txt
-# Shell Output:
-# English Answer: There are no files or directories that start with "a" and end with ".txt" in this directory.
-# French Answer: Il n'y a pas de fichiers ou de dossiers qui commencent par "a" et se terminent par ".txt" dans ce répertoire.
-
-ls_data.append({
-    'cmd': 'ls -d a*.txt',
-    'stdout': '',
-    'fr': {
-        'query': "Liste uniquement les fichiers et dossiers qui commencent par \"a\" et se terminent par \".txt\".",
-        'answer': "Il n'y a pas de fichiers ou de dossiers qui commencent par \"a\" et se terminent par \".txt\" dans ce répertoire."
-    },
-    'en': {
-        'query': "List only files and directories that start with \"a\" and end with \".txt\".",
-        'answer': "There are no files or directories that start with \"a\" and end with \".txt\" in this directory."
-    },
-})
-
-
-# English Query: List only files and directories that start with "a" or end with ".txt".
-# French Query: Liste uniquement les fichiers et dossiers qui commencent par "a" ou se terminent par ".txt".
-# Shell: ls -d a* *.txt
-# Shell Output:
-# English Answer: There are no files or directories that start with "a" or end with ".txt" in this directory.
-# French Answer: Il n'y a pas de fichiers ou de dossiers qui commencent par "a" ou se terminent par ".txt" dans ce répertoire.
-
-ls_data.append({
-    'cmd': 'ls -d a* *.txt',
-    'stdout': '',
-    'fr': {
-        'query': "Liste uniquement les fichiers et dossiers qui commencent par \"a\" ou se terminent par \".txt\".",
-        'answer': "Il n'y a pas de fichiers ou de dossiers qui commencent par \"a\" ou se terminent par \".txt\" dans ce répertoire."
-    },
-    'en': {
-        'query': "List only files and directories that start with \"a\" or end with \".txt\".",
-        'answer': "There are no files or directories that start with \"a\" or end with \".txt\" in this directory."
-    },
-})
+]
 
 def get_ls_examples():
     data = []
@@ -395,18 +283,22 @@ def get_ls_examples():
                 ]
             }
         ]
-        data.append({
-            'lang': 'en',
-            'system': "",
-            'instruction': "",
-            'conversation': conversation_en,
-        })
-        data.append({
-            'lang': 'fr',
-            'system': "",
-            'instruction': "",
-            'conversation': conversation_fr,
-        })
+        data.extend(
+            (
+                {
+                    'lang': 'en',
+                    'system': "",
+                    'instruction': "",
+                    'conversation': conversation_en,
+                },
+                {
+                    'lang': 'fr',
+                    'system': "",
+                    'instruction': "",
+                    'conversation': conversation_fr,
+                },
+            )
+        )
     return data
 
 guides = {

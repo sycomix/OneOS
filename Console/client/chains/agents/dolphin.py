@@ -131,10 +131,7 @@ class DolphinMistralAIFunctionsAgent(BaseSingleActionAgent):
                 stop=["<|im_stop|>", "<|im_start|>"],
             )
         output_parser = JsonOutputParser()
-        agent_decision = output_parser.parse(
-            text=predicted_action
-        )
-        return agent_decision
+        return output_parser.parse(text=predicted_action)
 
     async def aplan(
         self,
@@ -164,10 +161,7 @@ class DolphinMistralAIFunctionsAgent(BaseSingleActionAgent):
             prompt_context, callbacks=callbacks, stop=["</s>", "[INST]", "[/INST]", "<s>", "```\n"],
         )
         output_parser = JsonOutputParser()
-        agent_decision = output_parser.parse(
-            text=predicted_action
-        )
-        return agent_decision
+        return output_parser.parse(text=predicted_action)
 
     def return_stopped_response(
         self,
@@ -217,22 +211,18 @@ class DolphinMistralAIFunctionsAgent(BaseSingleActionAgent):
         """
         _prompts = extra_prompt or []
         messages: List[str]
-        if system:
-            messages = ["<|im_start|>system", f"{system}<|im_end|>"]
-        else:
-            messages = []
-
+        messages = ["<|im_start|>system", f"{system}<|im_end|>"] if system else []
         messages.extend(
             [
                 # History, context, whatever...
                 *_prompts,
-                
+
                 # Last User Input
                 "<|im_start|>user", f"{JSON_FUNC.format(query='{input}', functions=cls.get_func_str(tools))}<|im_end|>",
-                
+
                 # What has the agent acomplished yet
                 "{agent_scratchpad}",
-                
+
                 # This should always be at the end of the prompt
                 "<|im_start|>assistant",
                 "",

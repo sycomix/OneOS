@@ -50,8 +50,7 @@ class vLLM(LLM):
             "stream": stream,
             "stop": stop
         }
-        response = post(api_url, headers=headers, json=pload, stream=stream)
-        return response
+        return post(api_url, headers=headers, json=pload, stream=stream)
 
     def get_streaming_response(self, response: Response) -> Iterable[List[str]]:
         for chunk in response.iter_lines(chunk_size=8192,
@@ -59,14 +58,12 @@ class vLLM(LLM):
                                         delimiter=b"\0"):
             if chunk:
                 data = json.loads(chunk.decode("utf-8"))
-                output = data["text"]
-                yield output
+                yield data["text"]
 
     def get_response(self, response: Response) -> List[str]:
         try:
             data = json.loads(response.content)
-            output = data["text"]
-            return output
+            return data["text"]
         except json.decoder.JSONDecodeError as e:
             print("The server was not able to reply to the request.")
             print(f"Failed with error: {e}")
@@ -104,26 +101,25 @@ class vLLM(LLM):
         return await self.get_streaming_response_async(response)
     
     def _generate(self, prompts: List[str], stop: List[str] | None = None, run_manager: CallbackManagerForLLMRun | None = None, **kwargs: Any) -> LLMResult:
-        if self.streaming:
-            n = 1
-            api_url = f"http://{self.host}:{self.port}/generate"
-            stream = False
-            use_beam_search = False
-            response = self.post_http_request(prompts[0], api_url, stop, n, stream, self.temperature, self.max_tokens, use_beam_search)
-        
-            last_line = ""
-            for stream_resp in self.get_streaming_response(response):
-                if run_manager:
-                    for i, line in enumerate(stream_resp):
-                        last_token = line.replace(last_line, "")
-                        last_line = line
-                        run_manager.on_llm_new_token(
-                                last_token,
-                                verbose=self.verbose,
-                            )
-            return LLMResult(generations=[[Generation(text=last_line)]], llm_output=json.loads(response.content))     
-        else:
+        if not self.streaming:
             return LLMResult(generations=[[Generation(text=self._call(p))] for p in prompts], llm_output={})
+        n = 1
+        api_url = f"http://{self.host}:{self.port}/generate"
+        stream = False
+        use_beam_search = False
+        response = self.post_http_request(prompts[0], api_url, stop, n, stream, self.temperature, self.max_tokens, use_beam_search)
+
+        last_line = ""
+        for stream_resp in self.get_streaming_response(response):
+            if run_manager:
+                for line in stream_resp:
+                    last_token = line.replace(last_line, "")
+                    last_line = line
+                    run_manager.on_llm_new_token(
+                            last_token,
+                            verbose=self.verbose,
+                        )
+        return LLMResult(generations=[[Generation(text=last_line)]], llm_output=json.loads(response.content))
     
     async def _agenerate(
         self,
@@ -132,26 +128,25 @@ class vLLM(LLM):
         run_manager: Optional[AsyncCallbackManagerForLLMRun] = None,
         **kwargs: Any,
     ) -> LLMResult:
-        if self.streaming:
-            n = 1
-            api_url = f"http://{self.host}:{self.port}/generate"
-            stream = True
-            use_beam_search = False
-            response = self.post_http_request(prompts[0], api_url, stop, n, stream, self.temperature, self.max_tokens, use_beam_search)
-        
-            last_line = ""
-            for stream_resp in self.get_streaming_response(response):
-                if run_manager:
-                    for i, line in enumerate(stream_resp):
-                        last_token = line.replace(last_line, "")
-                        last_line = line
-                        await run_manager.on_llm_new_token(
-                                last_token,
-                                verbose=self.verbose,
-                            )
-            return LLMResult(generations=[[Generation(text=last_line)]], llm_output=json.loads(response.content))
-        else:
+        if not self.streaming:
             return LLMResult(generations=[[Generation(text=self._call(p))] for p in prompts], llm_output={})
+        n = 1
+        api_url = f"http://{self.host}:{self.port}/generate"
+        stream = True
+        use_beam_search = False
+        response = self.post_http_request(prompts[0], api_url, stop, n, stream, self.temperature, self.max_tokens, use_beam_search)
+
+        last_line = ""
+        for stream_resp in self.get_streaming_response(response):
+            if run_manager:
+                for line in stream_resp:
+                    last_token = line.replace(last_line, "")
+                    last_line = line
+                    await run_manager.on_llm_new_token(
+                            last_token,
+                            verbose=self.verbose,
+                        )
+        return LLMResult(generations=[[Generation(text=last_line)]], llm_output=json.loads(response.content))
     
     # @property
     # def _identifying_params(self) -> Mapping[str, Any]:

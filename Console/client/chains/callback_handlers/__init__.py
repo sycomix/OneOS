@@ -18,8 +18,8 @@ class InputOutputAsyncCallbackHandler(BaseCallbackHandler):
         """Run when chain ends running."""
         if hasattr(response, "generations"):
             if hasattr(response.generations[0][0], "text"):
-                answer = response.generations[0][0].text
-                if answer: self.save_output(answer)
+                if answer := response.generations[0][0].text:
+                    self.save_output(answer)
     
     def get_txt_file_count(self) -> int:
         directory = 'data'

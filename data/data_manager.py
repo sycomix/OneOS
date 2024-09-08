@@ -87,14 +87,12 @@ def create_user(username):
     user = User(username)
 
     if not user._check_attr("first_name"):
-        first_name = questionary.text("First name: ").ask()
-        if first_name:
+        if first_name := questionary.text("First name: ").ask():
             user.set_first_name(first_name)
             user.save()
 
     if not user._check_attr("last_name"):
-        last_name = questionary.text("Last name: ").ask()
-        if last_name:
+        if last_name := questionary.text("Last name: ").ask():
             user.set_last_name(last_name)
             user.save()
 
@@ -108,7 +106,7 @@ def create_user(username):
             # print("Setting gender")
             user.set_gender(user_gender)
             user.save()
-    
+
     if not user._check_attr("surnames"):
         add_surname = True
         while add_surname:
@@ -170,30 +168,25 @@ class User:
 
     def __str__(self):
         if self._check_attr("first_name") and self._check_attr("last_name"):
-            name = f"{self.first_name.capitalize()} {self.last_name.capitalize()}"
+            return f"{self.first_name.capitalize()} {self.last_name.capitalize()}"
         elif self._check_attr("first_name"):
-            name = f"{self.first_name.capitalize()}"
+            return f"{self.first_name.capitalize()}"
         elif self._check_attr("last_name"):
-            name = f"{self.last_name.capitalize()}"
+            return f"{self.last_name.capitalize()}"
         else:
-            name = f"{self.username}"
-        return name
+            return f"{self.username}"
 
     def __repr__(self):
         return self.describe()
 
     def _get_attr(self, attr):
-        if self._check_attr(attr):
-            return getattr(self, attr)
-        return None
+        return getattr(self, attr) if self._check_attr(attr) else None
 
     def _set_attr(self, attr, value):
         setattr(self, attr, value)
 
     def _check_attr(self, attr):
-        if hasattr(self, attr) and getattr(self, attr) is not None:
-            return True
-        return False
+        return bool(hasattr(self, attr) and getattr(self, attr) is not None)
 
     def set_first_name(self, first_name: str):
         self._set_attr("first_name", first_name)
@@ -203,7 +196,7 @@ class User:
 
     def set_gender(self, gender: str):
         gender = gender.lower()
-        if gender in ["man", "woman", "none"]:
+        if gender in {"man", "woman", "none"}:
             self._set_attr("gender", gender)
             assert (
                 self._check_attr("gender") and self._get_attr("gender") == gender
@@ -213,10 +206,7 @@ class User:
         self._set_attr("surnames", surnames)
 
     def describe(self):
-        if self._check_attr("gender"):
-            gender = self.gender
-        else:
-            gender = "person"
+        gender = self.gender if self._check_attr("gender") else "person"
         if self._check_attr("surnames"):
             if len(self._get_attr("surnames")) > 1:
                 surnames = (
@@ -238,9 +228,8 @@ class User:
         else:
             name = f"My username is {self.username}."
 
-        description = f"""I am the user. {name}
+        return f"""I am the user. {name}
 I am a {gender}. You should address me as {surnames}."""
-        return description
 
     def save(self):
         users = get_users()
@@ -407,25 +396,19 @@ class Agent:
             self.set_user_seen(agent.get("user_seen"))
 
     def __str__(self):
-        if hasattr(self, "name"):
-            return self.name.capitalize()
-        return None
+        return self.name.capitalize() if hasattr(self, "name") else None
 
     def __repr__(self):
         return self.describe()
 
     def _get_attr(self, attr):
-        if self._check_attr(attr):
-            return getattr(self, attr)
-        return None
+        return getattr(self, attr) if self._check_attr(attr) else None
 
     def _set_attr(self, attr, value):
         setattr(self, attr, value)
 
     def _check_attr(self, attr):
-        if hasattr(self, attr) and getattr(self, attr) is not None:
-            return True
-        return False
+        return bool(hasattr(self, attr) and getattr(self, attr) is not None)
 
     def set_description(self, description: str):
         self._set_attr("description", description)
@@ -478,19 +461,16 @@ class Agent:
         else:
             agent_system_description.append(f"You are {self.name.capitalize()}.\n")
 
-        personality = self.get_personality()
-        if personality:
+        if personality := self.get_personality():
             agent_system_description.append(f"You are {personality}")
 
-        traits = self.get_traits()
-        if traits:
+        if traits := self.get_traits():
             if self._check_attr("personality"):
                 agent_system_description.append(f", often displaying {traits}.\n")
             else:
                 agent_system_description.append(f"You are {traits}.\n")
 
-        adjectives = self.get_adjectives()
-        if adjectives:
+        if adjectives := self.get_adjectives():
             agent_system_description.append(f"You are {adjectives}")
 
         if self._check_attr("role"):
@@ -642,11 +622,9 @@ class Conversation:
     def get_history(self):
         history = ""
 
-        for t, turn in enumerate(self.turns):
+        for turn in self.turns:
             user_input = turn.get("human")
-            # scratchpad = turn.get("scratchpad")
-            agent_answer = turn.get("final_answer")
-            if agent_answer:
+            if agent_answer := turn.get("final_answer"):
                 history += f"""[INST] {user_input} [/INST] {agent_answer} / """
             elif user_input:
                 history += f"""<s>[INST] {user_input} [/INST] """
@@ -719,8 +697,7 @@ class Conversations:
 
         for conversation in self.conversations:
             for turn in conversation:
-                scratchpad = turn.get("scratchpad")
-                if scratchpad:
+                if scratchpad := turn.get("scratchpad"):
                     for scratchpad_item in scratchpad:
                         prompt = scratchpad_item.get("prompt")
                         rejected = scratchpad_item.get("model_output")
@@ -761,17 +738,17 @@ def list_items():
         print("No conversation found.")
     elif len(conversations) == 1:
         print("1 conversaiton found.")
-        print(f"ID")
-        print(f"0")
+        print("ID")
+        print("0")
     else:
         print(
             f"{len(conversations)} conversation{'s' if len(conversations) > 1 else ''} found."
         )
-        print(f"ID")
-        print(f"0")
-        print(f".")
-        print(f".")
-        print(f".")
+        print("ID")
+        print("0")
+        print(".")
+        print(".")
+        print(".")
         print(f"{len(conversations) - 1}")
 
 
@@ -830,18 +807,16 @@ def select_agent():
         agent = Agent(agentname)
 
         if not agent._check_attr("description"):
-            add_description = questionary.confirm(
+            if add_description := questionary.confirm(
                 "Would you like to add a description?", default=False
-            ).ask()
-            if add_description:
+            ).ask():
                 agent.set_description(questionary.text("Description: ").ask())
                 agent.save()
 
         if not agent._check_attr("personality"):
-            add_personality = questionary.confirm(
+            if add_personality := questionary.confirm(
                 "Would you like to add a personality?", default=False
-            ).ask()
-            if add_personality:
+            ).ask():
                 add_trait = True
                 while add_trait:
                     trait = questionary.text("Personality trait: ").ask()
@@ -856,10 +831,9 @@ def select_agent():
                     ).ask()
 
         if not agent._check_attr("traits"):
-            add_traits = questionary.confirm(
+            if add_traits := questionary.confirm(
                 "Would you like to add traits?", default=False
-            ).ask()
-            if add_traits:
+            ).ask():
                 add_trait = True
                 while add_trait:
                     trait = questionary.text("Trait: ").ask()
@@ -874,10 +848,9 @@ def select_agent():
                     ).ask()
 
         if not agent._check_attr("adjectives"):
-            add_adjectives = questionary.confirm(
+            if add_adjectives := questionary.confirm(
                 "Would you like to add adjectives?", default=False
-            ).ask()
-            if add_adjectives:
+            ).ask():
                 add_adjective = True
                 while add_adjective:
                     adjective = questionary.text("Adjective: ").ask()
@@ -892,10 +865,9 @@ def select_agent():
                     ).ask()
 
         if not agent._check_attr("role"):
-            add_role = questionary.confirm(
+            if add_role := questionary.confirm(
                 "Would you like to add a role?", default=False
-            ).ask()
-            if add_role:
+            ).ask():
                 agent.set_role(questionary.text("Role: ").ask())
                 agent.save()
     else:
@@ -924,23 +896,22 @@ def select_environment(user, agent):
 
 
 def select_tools():
-    define_tools_manualy = questionary.confirm(
-        "Would you like to define the tools yourself?", default=False
-    ).ask()
-
-    if not define_tools_manualy:
+    if not (
+        define_tools_manualy := questionary.confirm(
+            "Would you like to define the tools yourself?", default=False
+        ).ask()
+    ):
         return Tools(standard_tools_list)
-    else:
-        add_tool = True
-        tools = []
-        while add_tool:
-            tool_name = questionary.text("Tool name: ").ask()
-            tool_description = questionary.text("Tool description: ").ask()
-            tools.append(Tool(tool_name, tool_description))
-            add_tool = questionary.confirm(
-                "Would you like to add another tool?", default=False
-            ).ask()
-        return Tools(tools)
+    add_tool = True
+    tools = []
+    while add_tool:
+        tool_name = questionary.text("Tool name: ").ask()
+        tool_description = questionary.text("Tool description: ").ask()
+        tools.append(Tool(tool_name, tool_description))
+        add_tool = questionary.confirm(
+            "Would you like to add another tool?", default=False
+        ).ask()
+    return Tools(tools)
 
 
 def get_model_output(
@@ -962,8 +933,7 @@ def get_model_output(
             f"http://{host}:{port}/generate", json=payload, headers=headers
         )
         if r.status_code == 200:
-            j = r.json()
-            if j:
+            if j := r.json():
                 return j["text"][0]
     except Exception:
         pass
@@ -984,22 +954,11 @@ def parse_json_markdown(json_string: str) -> dict:
     match = re.search(r"```(json)?(.*)```", json_string, re.DOTALL)
 
     # If no match found, assume the entire string is a JSON string
-    if match is None:
-        json_str = json_string
-    else:
-        # If match found, use the content within the backticks
-        json_str = match.group(2)
-
+    json_str = json_string if match is None else match.group(2)
     # Strip whitespace and newlines from the start and end
     json_str = json_str.strip()
 
-    # handle newlines and other special characters inside the returned value
-    # json_str = _custom_parser(json_str)
-
-    # Parse the JSON string into a Python dictionary
-    parsed = json.loads(json_str)
-
-    return parsed
+    return json.loads(json_str)
 
 
 def handle_model_specifics(text):
@@ -1078,8 +1037,7 @@ def add_item():
         elif agent._check_attr("role"):
             print(f"It is always ready to {agent.role}.")
 
-        agent_last_seen_user = agent.user_seen.get(user.username)
-        if agent_last_seen_user:
+        if agent_last_seen_user := agent.user_seen.get(user.username):
             print(f"{agent} last saw {user} on {agent_last_seen_user}.")
         else:
             print(f"{agent} has never seen {user}.")
@@ -1124,9 +1082,7 @@ def add_item():
             model_output = get_model_output(prompt)
             print(model_output)
 
-            # get the action and input from the model output
-            action_dict = get_action(model_output)
-            if action_dict:
+            if action_dict := get_action(model_output):
                 action = action_dict.get("action")
                 action_input = action_dict.get("action_input")
             else:
@@ -1136,11 +1092,15 @@ def add_item():
             if action and action_input:
                 print(f"Model has chosen action {action} with input {action_input}")
 
-                # Correct the output if necessary
-                is_action_correct = questionary.confirm(
+                if is_action_correct := questionary.confirm(
                     "Is the action correct?", default=True
-                ).ask()
-                if not is_action_correct:
+                ).ask():
+                    correct_action = action
+                    correct_action_input = action_input
+                    observation = questionary.text(
+                        f"What did {agent} observed from this action: "
+                    ).ask()
+                else:
                     correct_action = None
                     # while correct_action != "final_answer":
                     correct_action = questionary.select(
@@ -1167,12 +1127,6 @@ def add_item():
                         observation = questionary.text(
                             f"What did {agent} observed from this action: "
                         ).ask()
-                else:
-                    correct_action = action
-                    correct_action_input = action_input
-                    observation = questionary.text(
-                        f"What did {agent} observed from this action: "
-                    ).ask()
             else:
                 print("Model failed to output an action and input.")
                 correct_action = questionary.select(

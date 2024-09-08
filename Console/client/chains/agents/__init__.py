@@ -45,7 +45,7 @@ class MultiActionAgent(BaseMultiActionAgent):
         Returns:
             Action specifying what tool to use.
         """
-        if len(intermediate_steps) == 0:
+        if not intermediate_steps:
             return [
                 AgentAction(tool="Search", tool_input=kwargs["input"], log=""),
                 AgentAction(tool="RandomWord", tool_input=kwargs["input"], log=""),

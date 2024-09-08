@@ -13,11 +13,7 @@ class MarkdownPromptTemplate(StringPromptTemplate):
     tools_getter: Callable
 
     def format(self, **kwargs) -> str:
-        # Get the intermediate steps (AgentAction, Observation tuples)
-        # Format them in a particular way
-        intermediate_steps = kwargs.pop("intermediate_steps")
-        
-        if intermediate_steps:
+        if intermediate_steps := kwargs.pop("intermediate_steps"):
             thoughts = "```json\n[\n"
             for action, observation in intermediate_steps:
                 thoughts += f"\t{{ 'action': '{action.tool}',  'action_input': '{action.tool_input}', 'observation': '{observation}' }},\n"

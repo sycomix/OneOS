@@ -1,8 +1,6 @@
 
 __version__ = "0.0.4"
 
-LANGS = []
-
 FR_LANGS = [
     "fr_FR",
     "fr_BE",
@@ -12,8 +10,7 @@ FR_LANGS = [
     "fr_MC",
 ]
 
-LANGS.extend(FR_LANGS)
-
+LANGS = list(FR_LANGS)
 EN_LANGS = [
     "en_US",
     "en_AU",

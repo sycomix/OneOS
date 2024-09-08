@@ -26,13 +26,12 @@ def load_translated_conversations():
     data_file = "data/samantha-1.1.fr.json"
     if not os.path.exists(data_file):
         return {}
-    else:
-        with open(data_file, 'r') as f:
-            json_data = json.load(f)
-        return {
-            conversation.get('id'): conversation.get('conversations')
-            for conversation in json_data
-        }
+    with open(data_file, 'r') as f:
+        json_data = json.load(f)
+    return {
+        conversation.get('id'): conversation.get('conversations')
+        for conversation in json_data
+    }
 
 def save_translated_conversations(conversations: dict):
     data_file = "data/samantha-1.1.fr.json"

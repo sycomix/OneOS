@@ -7,6 +7,5 @@ def get_hf_llm(model_name="wasertech/assistant-phi1_5-4k", max_tokens=500):
     pipe = pipeline(
         "text-generation", model=model, tokenizer=tokenizer, max_new_tokens=max_tokens, device_map='auto', trust_remote_code=True
     )
-    hf = HuggingFacePipeline(pipeline=pipe)
-    return hf
+    return HuggingFacePipeline(pipeline=pipe)
 

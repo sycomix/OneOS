@@ -23,7 +23,7 @@ def push_file(path_or_fileobj, path_in_repo, repo_id):
             )
             print(f"Pushed {path_or_fileobj} on {repo_id} after {attempt_count} attempts")
             break
-        except (Exception, RuntimeError) as e:
+        except Exception as e:
             print("\n"*5)
             print(e)
             print(f"Waiting {t} seconds...")
